@@ -2,7 +2,10 @@
 
 <div id="movies">
   <% @movies.each do |movie| %>
-    <div id="movie_<%= movie.id %>">
+    <div id="movie_<%= movie.id %>"
+         title="<%= movie.title %>"
+         rating="<%= movie.rating %>"
+         release_date="<%= movie.release_date&.strftime('%d-%b-%Y') %>">
       <p><strong>Title:</strong> <span class="title"><%= movie.title %></span></p>
       <p><strong>Rating:</strong> <span class="rating"><%= movie.rating %></span></p>
       <p><strong>Release Date:</strong> <span class="release_date"><%= movie.release_date&.strftime('%d-%b-%Y') %></span></p>
