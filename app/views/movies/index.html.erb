@@ -1,58 +1,12 @@
 <h1>Movies</h1>
 
-<!-- 过滤表单：用于按 Rating 筛选电影 -->
-<%= form_with url: movies_path, method: :get, local: true do %>
-  <fieldset style="margin: 0 0 1rem 0;">
-    <legend>Filter by Rating</legend>
-    <% @all_ratings.each do |rating| %>
-      <label style="margin-right: 0.75rem;">
-        <!-- 复选框：选中的评级会保存在 params[:ratings] -->
-        <%= check_box_tag 'ratings[]', rating, @selected_ratings.include?(rating) %>
-        <%= rating %>
-      </label>
-    <% end %>
-    <div style="margin-top: .5rem;">
-      <!-- 提交按钮：发送 GET 请求到 /movies -->
-      <%= submit_tag 'Filter' %>
-      <!-- 清除过滤条件，返回所有电影 -->
-      <%= link_to 'Clear', movies_path, style: 'margin-left: .5rem;' %>
+<div id="movies">
+  <% @movies.each do |movie| %>
+    <div id="movie_<%= movie.id %>">
+      <p><strong>Title:</strong> <%= movie.title %></p>
+      <p><strong>Rating:</strong> <%= movie.rating %></p>
+      <p><strong>Release Date:</strong> <%= movie.release_date&.to_date %></p>
+      <p><strong>Description:</strong> <%= movie.description %></p>
     </div>
-  </fieldset>
-<% end %>
-
-<%# 为了在点击排序时保留当前的过滤条件，把 ratings 转成 hash 带回去 %>
-<% preserved = { ratings: Hash[@selected_ratings.map { |r| [r, 1] }] } %>
-
-<!-- 电影列表表格 -->
-<table border="1" cellpadding="5">
-  <thead>
-    <tr>
-      <!-- 点击列名可以按对应字段排序 -->
-      <th><%= link_to 'Title', movies_path(preserved.merge(sort: 'title')) %></th>
-      <th>Rating</th>
-      <th><%= link_to 'Release Date', movies_path(preserved.merge(sort: 'release_date')) %></th>
-      <th>Description</th>
-      <th>Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @movies.each do |movie| %>
-      <tr>
-        <td><%= movie.title %></td>
-        <td><%= movie.rating %></td>
-        <td><%= movie.release_date&.to_date %></td>
-        <td><%= movie.description %></td>
-        <td>
-          <!-- CRUD 链接 -->
-          <%= link_to 'Show', movie %>
-          | <%= link_to 'Edit', edit_movie_path(movie) %>
-          | <%= link_to 'Destroy', movie, data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' } %>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<br>
-<!-- 新建电影的链接 -->
-<%= link_to 'New Movie', new_movie_path %>
+  <% end %>
+</div>
