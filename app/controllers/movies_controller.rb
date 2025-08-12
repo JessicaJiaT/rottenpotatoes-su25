@@ -1,5 +1,3 @@
-<th><%= link_to 'Title',        movies_path(sort_by: 'title',        ratings: @ratings_hash) %></th>
-<th><%= link_to 'Release date', movies_path(sort_by: 'release_date', ratings: @ratings_hash) %></th>
 
 def index
   @all_ratings = Movie.all_ratings
